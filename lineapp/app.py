@@ -1,4 +1,3 @@
-import config
 import os
 import openai
 from flask import Flask, request, abort
@@ -16,10 +15,14 @@ from linebot.models import (
 
 
 app = Flask(__name__)
+LINE_CHANNEL_ACCESS_TOKEN = os.environ['LINE_CHANNEL_ACCESS_TOKEN']
+LINE_CHANNEL_SECRET = os.environ['LINE_CHANNEL_SECRET']
+API_KEY = os.environ['API_KEY']
+# api_key = config.Google_API_KEY # GoogleTTS APIキーの設定
 
-line_bot_api = LineBotApi(config.LINE_CHANNEL_ACCESS_TOKEN)    # config.pyで設定したチャネルアクセストークン
-handler = WebhookHandler(config.LINE_CHANNEL_SECRET)    # config.pyで設定したチャネルシークレット
-openai.api_key = config.API_KEY # OpenAI APIキーの設定
+line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)    # config.pyで設定したチャネルアクセストークン
+handler = WebhookHandler(LINE_CHANNEL_SECRET)    # config.pyで設定したチャネルシークレット
+openai.api_key = API_KEY # OpenAI APIキーの設定
 # api_key = config.Google_API_KEY # GoogleTTS APIキーの設定
 
 
@@ -89,7 +92,7 @@ def handle_message(event):
         os.remove(f"interview/interview_log.text")
 
 
- 
+
 @handler.add(MessageEvent, message= AudioMessage)
 def handle_message(event):
     if event.reply_token == "00000000000000000000000000000000":
@@ -105,7 +108,7 @@ def handle_message(event):
 
     # メッセージを返信する
     line_bot_api.reply_message(event.reply_token, reply_message)
-    os.remove(f"{message_id}.m4a")
+    os.remove(f"lineoudio/{message_id}.m4a")
 
 def chatGPT_response(text):
 
@@ -140,15 +143,15 @@ def chatGPT_response(text):
     print(response_text)
     return response_text
 
-#Whisperで音声を認識してchatGPTに流す
+# Whisperで音声を認識してchatGPTに流す
 def STT_whisper(message_id):
     print("STT_whisper起動")
     print(message_id)
     message_content = line_bot_api.get_message_content(message_id)
-    with open(f"{message_id}.m4a", 'wb') as fd:
+    with open(f"lineoudio/{message_id}.m4a", 'wb') as fd:
         fd.write(message_content.content)
         audio_path = fd.name
-    with open(f"{message_id}.m4a", "rb") as fd:
+    with open(f"lineoudio/{message_id}.m4a", "rb") as fd:
         transcript = openai.Audio.transcribe("whisper-1", fd)
         user_question = transcript["text"]
         print(user_question)
