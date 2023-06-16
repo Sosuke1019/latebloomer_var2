@@ -13,16 +13,17 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage, AudioMessage, FollowEvent,
 )
 
-
 app = Flask(__name__)
+
+# 環境変数取得
 LINE_CHANNEL_ACCESS_TOKEN = os.environ['LINE_CHANNEL_ACCESS_TOKEN']
 LINE_CHANNEL_SECRET = os.environ['LINE_CHANNEL_SECRET']
 API_KEY = os.environ['API_KEY']
 # api_key = config.Google_API_KEY # GoogleTTS APIキーの設定
 
-line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)    # config.pyで設定したチャネルアクセストークン
-handler = WebhookHandler(LINE_CHANNEL_SECRET)    # config.pyで設定したチャネルシークレット
-openai.api_key = API_KEY # OpenAI APIキーの設定
+line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(LINE_CHANNEL_SECRET)
+openai.api_key = API_KEY
 # api_key = config.Google_API_KEY # GoogleTTS APIキーの設定
 
 
@@ -175,6 +176,7 @@ def interview_file_read():
     with open(f"interview/interview_log.text", 'rb') as f:
         interview_log = f.read()
     return interview_log
+
 
 if __name__ == "__main__":
 #    app.run()
