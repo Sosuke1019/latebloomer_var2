@@ -109,7 +109,7 @@ def handle_message(event):
 
     # メッセージを返信する
     line_bot_api.reply_message(event.reply_token, reply_message)
-    os.remove(f"lineoudio/{message_id}.m4a")
+    os.remove(f"lineaudio/{message_id}.m4a")
 
 def chatGPT_response(text):
 
@@ -149,10 +149,10 @@ def STT_whisper(message_id):
     print("STT_whisper起動")
     print(message_id)
     message_content = line_bot_api.get_message_content(message_id)
-    with open(f"lineoudio/{message_id}.m4a", 'wb') as fd:
+    with open(f"lineaudio/{message_id}.m4a", 'wb') as fd:
         fd.write(message_content.content)
         audio_path = fd.name
-    with open(f"lineoudio/{message_id}.m4a", "rb") as fd:
+    with open(f"lineaudio/{message_id}.m4a", "rb") as fd:
         transcript = openai.Audio.transcribe("whisper-1", fd)
         user_question = transcript["text"]
         print(user_question)
