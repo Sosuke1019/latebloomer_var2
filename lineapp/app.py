@@ -165,7 +165,7 @@ def profile_file_write(file_content):
 def profile_file_read():
     with open(f"user_profile/user_profile.text", 'rb') as f:
         profile = f.read()
-    return profile 
+    return profile
 
 def interview_file_write(file_content):
     with open(f"interview/interview_log.text", 'wb') as f:
