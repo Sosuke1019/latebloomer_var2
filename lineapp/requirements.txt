@@ -1,6 +1,4 @@
 Flask==2.2.3
 line-bot-sdk==2.4.2
 openai==0.27.4 
-gunicorn
-Jinja2
-Werkzeug
+gunicorn==20.1.0
