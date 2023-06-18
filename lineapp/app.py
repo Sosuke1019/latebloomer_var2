@@ -82,13 +82,13 @@ def handle_message(event):
         )
         return
     
-    profiele_file_write(text_message.text)
+    profile_file_write(text_message.text)
 
     if text_message.text == "終了":
         line_bot_api.reply_message(
         event.reply_token, TextSendMessage(text="終了します。")
         )
-        os.remove(f"user_profiele/user_profiele.text")
+        os.remove(f"user_profile/user_profile.text")
         os.remove(f"interview/interview_log.text")
 
 @handler.add(MessageEvent, message= AudioMessage)
@@ -111,7 +111,7 @@ def handle_message(event):
 def chatGPT_response(text):
 
     print("chatGPT_response起動")
-    user_character = profiele_file_read()
+    user_character = profile_file_read()
     interview_log = interview_file_read()
     GPT_character = '''
         あなたは新卒採用を行う面接官です。あなたは日本のIT業界に所属しています。
@@ -158,14 +158,14 @@ def STT_whisper(message_id):
 
     return user_question
 
-def profiele_file_write(file_content):
+def profile_file_write(file_content):
     with open(f"user_profile/user_profile.text", 'wb') as f:
         f.write(file_content.encode('utf-8'))
 
-def profiele_file_read():
+def profile_file_read():
     with open(f"user_profile/user_profile.text", 'rb') as f:
-        profiele = f.read()
-    return profiele 
+        profile = f.read()
+    return profile 
 
 def interview_file_write(file_content):
     with open(f"interview/interview_log.text", 'wb') as f:
