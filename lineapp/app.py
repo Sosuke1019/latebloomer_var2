@@ -89,8 +89,8 @@ def handle_message(event):
         line_bot_api.reply_message(
         event.reply_token, TextSendMessage(text="終了します。")
         )
-        os.remove(f"user_profiele/user_profiele.text")
-        os.remove(f"interview/interview_log.text")
+        # os.remove(f"user_profiele/user_profiele.text")
+        # os.remove(f"interview/interview_log.text")
 
 
 
