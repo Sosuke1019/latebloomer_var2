@@ -19,7 +19,6 @@ app = Flask(__name__)
 LINE_CHANNEL_ACCESS_TOKEN = os.environ['LINE_CHANNEL_ACCESS_TOKEN']
 LINE_CHANNEL_SECRET = os.environ['LINE_CHANNEL_SECRET']
 API_KEY = os.environ['API_KEY']
-# api_key = config.Google_API_KEY # GoogleTTS APIキーの設定
 
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
@@ -89,10 +88,8 @@ def handle_message(event):
         line_bot_api.reply_message(
         event.reply_token, TextSendMessage(text="終了します。")
         )
-        # os.remove(f"user_profiele/user_profiele.text")
-        # os.remove(f"interview/interview_log.text")
-
-
+        os.remove(f"user_profiele/user_profiele.text")
+        os.remove(f"interview/interview_log.text")
 
 @handler.add(MessageEvent, message= AudioMessage)
 def handle_message(event):
@@ -168,7 +165,6 @@ def profiele_file_write(file_content):
 def profiele_file_read():
     with open(f"user_profile/user_profile.text", 'rb') as f:
         profiele = f.read()
-        print(profiele)
     return profiele 
 
 def interview_file_write(file_content):
