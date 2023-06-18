@@ -138,7 +138,6 @@ def chatGPT_response(text):
     ],
     )
     response_text = response.choices[0]["message"]["content"].strip()
-    print(user_character)
     print(response_text)
     return response_text
 
@@ -161,6 +160,7 @@ def STT_whisper(message_id):
 
 def profile_file_write(file_content):
     with open(f"user_profile/user_profile.text", 'wb') as f:
+        print(file_content.encode('utf-8'))
         f.write(file_content.encode('utf-8'))
 
 def profile_file_read():
