@@ -149,10 +149,10 @@ def STT_whisper(message_id):
     print("STT_whisper起動")
     print(message_id)
     message_content = line_bot_api.get_message_content(message_id)
-    with open(f"{message_id}.m4a", 'wb') as fd:
+    with open(f"lineaudio/{message_id}.m4a", 'wb') as fd:
         fd.write(message_content.content)
         audio_path = fd.name
-    with open(f"{message_id}.m4a", "rb") as fd:
+    with open(f"lineaudio/{message_id}.m4a", "rb") as fd:
         transcript = openai.Audio.transcribe("whisper-1", fd)
         user_question = transcript["text"]
         print(user_question)
@@ -160,11 +160,11 @@ def STT_whisper(message_id):
     return user_question
 
 def profiele_file_write(file_content):
-    with open(f"user_profile/user_profiele.text", 'wb') as f:
+    with open(f"user_profile/user_profile.text", 'wb') as f:
         f.write(file_content.encode('utf-8'))
 
 def profiele_file_read():
-    with open(f"user_profile/user_profiele.text", 'rb') as f:
+    with open(f"user_profile/user_profile.text", 'rb') as f:
         profiele = f.read()
     return profiele 
 
