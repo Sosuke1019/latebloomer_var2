@@ -138,6 +138,7 @@ def chatGPT_response(text):
     ],
     )
     response_text = response.choices[0]["message"]["content"].strip()
+    print(user_character)
     print(response_text)
     return response_text
 
