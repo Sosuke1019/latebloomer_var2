@@ -144,15 +144,15 @@ def chatGPT_response(text):
     print(response_text)
     return response_text
 
-# Whisperで音声を認識してchatGPTに流す
+#Whisperで音声を認識してchatGPTに流す
 def STT_whisper(message_id):
     print("STT_whisper起動")
     print(message_id)
     message_content = line_bot_api.get_message_content(message_id)
-    with open(f"lineaudio/{message_id}.m4a", 'wb') as fd:
+    with open(f"{message_id}.m4a", 'wb') as fd:
         fd.write(message_content.content)
         audio_path = fd.name
-    with open(f"lineaudio/{message_id}.m4a", "rb") as fd:
+    with open(f"{message_id}.m4a", "rb") as fd:
         transcript = openai.Audio.transcribe("whisper-1", fd)
         user_question = transcript["text"]
         print(user_question)
