@@ -82,6 +82,7 @@ def handle_message(event):
         )
         return
     
+    print(text_message.text)
     profile_file_write(text_message.text)
 
     if text_message.text == "終了":
@@ -128,7 +129,7 @@ def chatGPT_response(text):
     {interview_log}
     '''
     response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
+    model="gpt-3.5-turbo-0613",
     messages=[
         {"role": "system", "content": GPT_character},
         {"role": "system", "content": User_character_prompt},
