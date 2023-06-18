@@ -82,7 +82,6 @@ def handle_message(event):
         )
         return
     
-    print(text_message.text)
     profile_file_write(text_message.text)
 
     if text_message.text == "終了":
