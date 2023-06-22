@@ -113,7 +113,7 @@ def handle_message(event):
     # アップロードする音声ファイルの情報
     s3_file_path = f"{message_id}.m4a"  # アップロードするファイルのパス
     bucket_name = 'latebloomer-var2'  # バケット名
-    object_name = f'line_response_audio/{message_id}.m4a' 
+    object_name = f'{message_id}.m4a' 
 
     # 音声ファイルをAmazon S3にアップロード
     upload_to_s3(s3_file_path, bucket_name, object_name)
@@ -124,7 +124,7 @@ def handle_message(event):
     line_bot_api.reply_message(event.reply_token, reply_message)
     send_voice_message(line_bot_api,message_id,short_url)
     os.remove(f"{message_id}.m4a")
-    os.remove(f"{message_id}.m4a")
+    os.remove(f"line_response_audio/{message_id}.m4a")
 
 def chatGPT_response(text):
 
