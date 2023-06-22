@@ -111,7 +111,7 @@ def handle_message(event):
     interview_file_write("interviewer:"+response_text)
 
     # アップロードする音声ファイルの情報
-    s3_file_path = f"{message_id}.m4a"  # アップロードするファイルのパス
+    s3_file_path = f"line_response_audio/{message_id}.m4a"  # アップロードするファイルのパス
     bucket_name = 'latebloomer-var2'  # バケット名
     object_name = f'{message_id}.m4a' 
 
@@ -199,7 +199,7 @@ def interview_file_read():
 def text_to_speech(text_message, message_id):
     text = text_message.text
     tts = gTTS(text=text, lang='ja')  
-    output_file = f"{message_id}.m4a"
+    output_file = f"line_response_audio/{message_id}.m4a"
     tts.save(output_file)
 
 def upload_to_s3(file_path, bucket_name, object_name):
