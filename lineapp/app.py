@@ -112,7 +112,7 @@ def handle_message(event):
 
     # アップロードする音声ファイルの情報
     s3_file_path = f"line_response_audio/{message_id}.m4a"  # アップロードするファイルのパス
-    bucket_name = 'latebloomer'  # バケット名
+    bucket_name = 'latebloomer-var2'  # バケット名
     object_name = f'{message_id}.m4a' 
 
     # 音声ファイルをAmazon S3にアップロード
@@ -194,6 +194,56 @@ def interview_file_read():
     with open(f"interview/interview_log.text", 'rb') as f:
         interview_log = f.read()
     return interview_log
+
+# 変更箇所
+def text_to_speech(text_message, message_id):
+    text = text_message.text
+    tts = gTTS(text=text, lang='ja')  
+    output_file = f"line_response_audio/{message_id}.m4a"
+    tts.save(output_file)
+
+def upload_to_s3(file_path, bucket_name, object_name):
+    s3 = boto3.client('s3')
+    s3.upload_file(file_path, bucket_name, object_name)
+    print(f"File uploaded to Amazon S3: s3://{bucket_name}/{object_name}")
+
+def get_s3_https_link(bucket_name, object_name):
+    s3 = boto3.client('s3')
+    params = {'Bucket': bucket_name, 'Key': object_name}
+    url = s3.generate_presigned_url('get_object', Params=params, ExpiresIn=3600)
+    print(f"HTTPS Link: {url}")
+    return url
+
+def delete_from_s3(bucket_name, object_name):
+    s3 = boto3.client('s3')
+    s3.delete_object(Bucket=bucket_name, Key=object_name)
+    print(f"File deleted from Amazon S3: s3://{bucket_name}/{object_name}")
+
+#音声メッセージを送信する
+def send_voice_message(channel_access_token, user_id, audio_url):
+    url = 'https://api.line.me/v2/bot/message/push'
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {channel_access_token}'
+    }
+    data = {
+        'to': user_id,
+        'messages': [
+            {
+                'type': 'audio',
+                'originalContentUrl': audio_url,
+                'duration': 60000
+            }
+        ]
+    }
+    response = requests.post(url, headers=headers, json=data)
+    print(response.json())
+
+def shorten_url(url):
+    s = pyshorteners.Shortener()
+    short_url = s.tinyurl.short(url)
+    print(short_url)
+    return short_url
 
 
 if __name__ == "__main__":
