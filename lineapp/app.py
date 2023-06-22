@@ -78,7 +78,7 @@ def handle_message(event):
 
     if text_message.text in {"男性", "女性"}:
         line_bot_api.reply_message(
-        event.reply_token, TextSendMessage(text="②プロフィール(例：名前:竹田花子, 性別:女性, 学年:3年生, 学部:情報学部, 志望企業:Google)の入力を行ってください。プロフィール入力後は、ボイスメッセージを使用して面接を行います。終了したい場合は、終了と入力してください。ボイスメッセージで「こんにちわ」と言ってください。")
+        event.reply_token, TextSendMessage(text="②プロフィール(例：名前:, 性別:女性, 学年:3年生, 学部:情報学部, 志望企業:Google)の入力を行ってください。プロフィール入力後は、ボイスメッセージを使用して面接を行います。終了したい場合は、終了と入力してください。ボイスメッセージで「こんにちわ」と言ってください。")
         )
         return
     
