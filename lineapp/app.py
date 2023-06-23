@@ -122,7 +122,7 @@ def handle_message(event):
     # short_url = shorten_url(audio_url)
     # メッセージを返信する
     # line_bot_api.reply_message(event.reply_token, reply_message)
-    line_bot_api.reply_message(event.reply_token, audio_url)
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=audio_url))
     # send_voice_message(line_bot_api,message_id,short_url)
     os.remove(f"{message_id}.m4a")
     os.remove(f"line_response_audio/{message_id}.m4a")
