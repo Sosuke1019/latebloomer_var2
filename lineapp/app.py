@@ -5,6 +5,7 @@ import boto3
 from gtts import gTTS
 import requests
 import pyshorteners
+import botocore
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -208,6 +209,12 @@ def upload_to_s3(file_path, bucket_name, object_name):
     print(f"File uploaded to Amazon S3: s3://{bucket_name}/{object_name}")
 
 def get_s3_https_link(bucket_name, object_name):
+    session = botocore.session.get_session()
+    session.set_default_client_config(botocore.config.Config(
+        signature_version='s3v4',
+        s3={'addressing_style': 'path'},
+        tls_version=botocore.awsrequest.AWSHTTPSConnection.TLSv1_2,
+    ))
     s3 = boto3.client('s3')
     params = {'Bucket': bucket_name, 'Key': object_name}
     url = s3.generate_presigned_url('get_object', Params=params, ExpiresIn=3600)
