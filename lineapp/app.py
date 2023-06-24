@@ -54,7 +54,7 @@ def on_follow(event):
     # メッセージの送信
     line_bot_api.reply_message(
         event.reply_token,
-        messages=TextSendMessage(text='友達追加ありがとうございます。こちらは面接対策botです。面接練習と入力してください。')
+        messages=TextSendMessage(text='面接練習と入力してください。')
     )
 
 @handler.add(MessageEvent, message=TextMessage)
