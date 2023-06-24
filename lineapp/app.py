@@ -6,7 +6,6 @@ from gtts import gTTS
 import requests
 import pyshorteners
 import botocore
-import ssl
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -215,8 +214,8 @@ def get_s3_https_link(bucket_name, object_name):
     session.set_default_client_config(botocore.config.Config(
         signature_version='s3v4',
         s3={'addressing_style': 'path'},
-        ssl=ssl.create_default_context(ssl.Purpose.CLIENT_AUTH),
     ))
+    session._session = botocore.httpsession.URLLib3Session()
     s3 = boto3.client('s3')
     params = {'Bucket': bucket_name, 'Key': object_name}
     url = s3.generate_presigned_url('get_object', Params=params, ExpiresIn=3600)
