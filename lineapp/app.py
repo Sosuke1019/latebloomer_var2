@@ -121,11 +121,13 @@ def handle_message(event):
     # HTTPSのリンクを取得
     audio_url =  get_s3_https_link(bucket_name, object_name)
     short_url = shorten_url(audio_url)
-    # メッセージを返信する
+    # メッセージとURLを返信する
     line_bot_api.reply_message(event.reply_token, [TextSendMessage(text=response_text),TextSendMessage(text=short_url)])
+    # テキストメッセージのみ返信
     # line_bot_api.reply_message(event.reply_token, reply_message)
+    # 音声のみ返信
     # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=short_url))
-    # send_voice_message(line_bot_api,message_id,audio_url)
+    send_voice_message(line_bot_api,message_id,audio_url)
     os.remove(f"{message_id}.m4a")
     os.remove(f"line_response_audio/{message_id}.m4a")
 
